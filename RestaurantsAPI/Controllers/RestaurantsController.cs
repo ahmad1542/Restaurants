@@ -23,6 +23,9 @@ public class RestaurantsController(IRestaurantsService restaurantsService) : Con
 
     [HttpPost]
     public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantDto createRestaurantDto) {
+
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
         int id = await restaurantsService.Create(createRestaurantDto);
         return CreatedAtAction(nameof(GetById), new {id}, null);
     }
