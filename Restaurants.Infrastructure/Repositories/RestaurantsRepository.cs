@@ -2,6 +2,7 @@
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistense;
+using System.IO;
 
 namespace Restaurants.Infrastructure.Repositories;
 internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaurantRepository {
@@ -29,4 +30,7 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
         var restaurant = await dbContext.Restaurants.Include(d => d.Dishes).FirstOrDefaultAsync(r => r.Id == id);
         return restaurant;
     }
+
+    public async Task SaveChangesAsync() => await dbContext.SaveChangesAsync();
+
 }
