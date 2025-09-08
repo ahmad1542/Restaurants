@@ -6,7 +6,7 @@ namespace Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 public class DeleteRestaurantCommandHandler(IRestaurantRepository restaurantRepository,
     ILogger<DeleteRestaurantCommand> logger) : IRequestHandler<DeleteRestaurantCommand, bool> {
     public async Task<bool> Handle(DeleteRestaurantCommand request, CancellationToken cancellationToken) {
-        logger.LogInformation($"Deleting restaurant with id: {request.Id}");
+        logger.LogInformation("Deleting restaurant with id: {RestaurantId}", request.Id);
 
         return await restaurantRepository.Delete(request.Id);
     }
