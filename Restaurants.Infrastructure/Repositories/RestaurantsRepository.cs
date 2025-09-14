@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain.Entities;
+using Restaurants.Domain.Exceptions;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistense;
-using System.IO;
 
 namespace Restaurants.Infrastructure.Repositories;
 internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaurantRepository {
@@ -15,7 +15,7 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
     public async Task<bool> Delete(int id) {
         var restaurant = await GetByIdAsync(id);
         if (restaurant == null)
-            return false;
+            throw new NotFoundException(nameof(Restaurant), id.ToString());
         dbContext.Remove(restaurant);
         int rowsAffected = await dbContext.SaveChangesAsync();
         return (rowsAffected > 0);

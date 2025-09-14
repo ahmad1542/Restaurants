@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Restaurants.Application.Restaurants;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
@@ -24,7 +23,7 @@ public class RestaurantsController(IMediator mediator) : ControllerBase {
     public async Task<ActionResult<RestaurantDto?>> GetById([FromRoute] int id) {
         var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
 
-        return restaurant is null ? NotFound($"No Restaurant Exist With Id: {id}") : Ok(restaurant);
+        return Ok(restaurant);
     }
 
     [HttpPost]
@@ -37,9 +36,8 @@ public class RestaurantsController(IMediator mediator) : ControllerBase {
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteRestaurant([FromRoute] int id) {
-        var isDeleted = await mediator.Send(new DeleteRestaurantCommand(id));
-
-        return isDeleted ? NoContent() : NotFound();
+        await mediator.Send(new DeleteRestaurantCommand(id));
+        return NoContent();
     }
 
     [HttpPatch("{id}")]
@@ -47,8 +45,8 @@ public class RestaurantsController(IMediator mediator) : ControllerBase {
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateRestaurant([FromRoute] int id, [FromBody] UpdateRestaurantCommand command) {
         command.Id = id;
-        var isUpdated = await mediator.Send(command);
-        return isUpdated ? NoContent() : NotFound();
+        await mediator.Send(command);
+        return NoContent();
     }
 
 }

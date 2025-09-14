@@ -4,10 +4,10 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 public class DeleteRestaurantCommandHandler(IRestaurantRepository restaurantRepository,
-    ILogger<DeleteRestaurantCommand> logger) : IRequestHandler<DeleteRestaurantCommand, bool> {
-    public async Task<bool> Handle(DeleteRestaurantCommand request, CancellationToken cancellationToken) {
+    ILogger<DeleteRestaurantCommand> logger) : IRequestHandler<DeleteRestaurantCommand> {
+    public async Task Handle(DeleteRestaurantCommand request, CancellationToken cancellationToken) {
         logger.LogInformation("Deleting restaurant with id: {RestaurantId}", request.Id);
 
-        return await restaurantRepository.Delete(request.Id);
+        await restaurantRepository.Delete(request.Id);
     }
 }
