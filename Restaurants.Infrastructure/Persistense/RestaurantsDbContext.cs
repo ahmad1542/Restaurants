@@ -11,7 +11,7 @@ namespace Restaurants.Infrastructure.Persistense {
 
             modelBuilder.Entity<Restaurant>().OwnsOne(r => r.Address);
             
-            modelBuilder.Entity<Restaurant>().HasMany(r => r.Dishes).WithOne().HasForeignKey(d => d.RestaurantsId);
+            modelBuilder.Entity<Restaurant>().HasMany(r => r.Dishes).WithOne().HasForeignKey(d => d.RestaurantId);
 
         }
     }
