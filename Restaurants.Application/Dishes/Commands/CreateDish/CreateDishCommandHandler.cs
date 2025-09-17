@@ -16,8 +16,6 @@ public class CreateDishCommandHandler(IRestaurantRepository restaurantRepository
             throw new NotFoundException(nameof(Restaurant), request.RestaurantId.ToString());
 
         var dish = mapper.Map<Dish>(request);
-        // Ensure the foreign key is set correctly
-        //dish.RestaurantsId = request.RestaurantId;
 
         await dishesRepository.Create(dish);
 
