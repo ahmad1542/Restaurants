@@ -9,7 +9,7 @@ using Restaurants.Domain.Repositories;
 namespace Restaurants.Application.Dishes.Queries.GetDishesForRestaurant;
 public class GetDishesForRestaurantQueryHandler(IRestaurantRepository restaurantRepository,
     ILogger<GetDishesForRestaurantQueryHandler> logger,
-    IMapper mapper, IDishesRepository dishesRepository) : IRequestHandler<GetDishesForRestaurantQuery, IEnumerable<DishDto>> {
+    IMapper mapper) : IRequestHandler<GetDishesForRestaurantQuery, IEnumerable<DishDto>> {
     public async Task<IEnumerable<DishDto>> Handle(GetDishesForRestaurantQuery request, CancellationToken cancellationToken) {
         logger.LogInformation("Getting all dishes for restaurant with id: {@RestaurantId}", request.RestId);
         var rest = await restaurantRepository.GetByIdAsync(request.RestId);
